@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import SearchResultsContainer from "./components/SearchResultsContainer"
+import SearchResultsContainer from "./components/SearchResultContainer"
 
 function App() {
   return <SearchResultsContainer />;
@@ -9,3 +9,6 @@ function App() {
 }
 
 export default App;
+
+
+
