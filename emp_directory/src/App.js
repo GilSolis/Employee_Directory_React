@@ -5,7 +5,6 @@ import SearchResultsContainer from "./components/SearchResultContainer"
 function App() {
   return <SearchResultsContainer />;
 
-
 }
 
 export default App;

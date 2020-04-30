@@ -8,87 +8,54 @@ const MaxResults = 20;
 class SearchResultContainer extends Component {
     state = {
         result: [],
-        filter: "",
-        filterBy: "lastName",
+        filter: [],
         currentSort: "default",
         sortField: ""
-
     };
 
-    // When this component mounts, search the Giphy API for pictures of kittens
     // onsafe_componentWillMount()
     componentDidMount() {
         API.search()
             .then(res => {
-                console.log(res)
+                const mapped = res.data.results.map((e, i) => ({
+                    firstName: e.name.first,
+                    lastName: e.name.last,
+                    picture: e.picture.large,
+                    email: e.email,
+                    phone: e.phone,
+                    dob: e.age
+                }))
                 this.setState({
-                    result: res.data.results.map((e, i) => ({
-                        firstName: e.name.first,
-                        lastName: e.name.last,
-                        picture: e.picture.large,
-                        email: e.email,
-                        phone: e.phone,
-                        dob: e.age,
-                        key: i
-                    }))
-
+                    result: mapped,
+                    filter: mapped
                 })
 
             })
             .catch(err => console.log(err));
     }
 
-    filterEmployees = (searchkey) => {
-        console.log("***in Filter*******");
-        console.log(searchkey);
-        console.log(this.state.result);
-        var filterResult = this.state.result.filter(person => person.firstName === searchkey)
-
+    filterEmployees = () => {
         this.setState({
-            result: filterResult
+            filter: this.state.result.filter(person => {
+                const values = Object.values(person).join("").toLowerCase().replace("http", '');
 
+                return values.includes(this.state.search)
+            })
         })
-
     }
 
-
-    // When the form is submitted, search the Giphy API for `this.state.search`
-    handleFormSubmit = event => {
-        event.preventDefault();
-        const value = event.target.value;
-        const name = event.target.name;
-        console.log("**********");
-        console.log(value);
-        console.log(name);
-        //filter function here
-        this.filterEmployees(value);
-        this.setState({
-
-            [name]: value
-
-        });
-        this.filterEmployees(value);
-        this.filterEmployees(this.state.search);
-
-    };
-
     handleInputChange = event => {
-        event.preventDefault();
-        console.log(event);
         const value = event.target.value;
         const name = event.target.name;
-        console.log("**********");
-        console.log(value);
-        console.log(name);
         this.setState({
 
             [name]: value
 
-        });
-
+        }, this.filterEmployees);
     };
 
     render() {
+
         return (
             <div className="container">
                 <div className="row">
@@ -101,7 +68,6 @@ class SearchResultContainer extends Component {
                         <SearchForm
                             value={this.state.search}
                             handleInputChange={this.handleInputChange}
-                            handleFormSubmit={this.handleFormSubmit}
                         />
                     </div>
                 </div>
@@ -118,14 +84,14 @@ class SearchResultContainer extends Component {
                                 <th scope="col">Phone</th>
                             </tr>
                         </tbody>
-                        {[...this.state.result].map((item) =>
+                        {this.state.filter.map((item, i) =>
                             <EmployeeCard
                                 picture={item.picture}
                                 firstName={item.firstName}
                                 lastName={item.lastName}
                                 email={item.email}
                                 phone={item.phone}
-                                key={item.key}
+                                key={i + '-employee'}
                             />
                         )}
 
