@@ -29,7 +29,6 @@ class SearchResultContainer extends Component {
                     result: mapped,
                     filter: mapped
                 })
-
             })
             .catch(err => console.log(err));
     }
