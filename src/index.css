@@ -11,3 +11,10 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+tbody:hover{
+  transform: scale(1.1);
+}
+
+body{
+  background-color: cadetblue;
+}

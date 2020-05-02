@@ -36,3 +36,17 @@
     transform: rotate(360deg);
   }
 }
+
+tbody:hover{
+  background-color: darkkhaki;
+ 
+}
+
+#root{
+  background-color: lightslategray
+}
+
+tbody{
+  background-color: cornflowerblue;
+}
+
